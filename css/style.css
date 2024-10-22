@@ -35,9 +35,19 @@ header nav ul{
 }
 header nav ul .link{
 	padding-bottom:2%;
+	flex-grow:2;
+	display:flex;
+	flex-direction: column;
+    flex-wrap: nowrap;
 }
 header nav ul li{
 	list-style:none;
+}
+header nav ul li:first-child{
+	align-items: flex-end;
+}
+header nav ul li:last-child{
+	align-items: flex-start;
 }
 header nav ul li a{
 	font-family:"Grenze Gotisch",serif;
@@ -46,13 +56,14 @@ header nav ul li a{
 	text-align: center;
 	color:var(--druj-blue);
 }
+header nav ul li hr{
+	width:94%;
+	border-top:solid var(--druj-blue) 2px;
+}
 header nav ul li svg{
 	fill:var(--druj-blue);
 	max-height:110px;
 	width:auto;
-}
-main{
-	height:85vh;
 }
 .home{
 	background-color:var(--druj-blue);
@@ -61,6 +72,7 @@ main{
 	background-repeat: no-repeat;
 	background-size: contain;
 	background-blend-mode: exclusion;
+	height:85vh;
 }
 .home section{
 	height:100%;
@@ -75,6 +87,7 @@ main{
 	font-family:"Inconsolata",sans-serif;
 	font-size:1.5em;
 	font-weight:500;
+	font-stretch:semi-condensed;
 	text-align: left;
 	color:var(--background);
 	grid-area:titulo;
@@ -84,8 +97,9 @@ main{
 }
 .home section p{
 	font-family:"Inconsolata",sans-serif;
-	font-size:1em;
+	font-size:1.2em;
 	font-weight:300;
+	font-stretch:semi-condensed;
 	text-align: right;
 	color:var(--background);
 	grid-area:parrafo;
@@ -100,11 +114,140 @@ main{
 	font-weight:600;
 	color:var(--druj-blue);
 	background-color:var(--background);
-	padding:0.5% 1%;;
+	padding:0.5% 1%;
 	border-radius:2px;
 	grid-area:boton;
 	width: fit-content;
     height: fit-content;
     justify-self:center;
 	align-self:center;
+}
+.page{
+	margin-top:3%;
+	padding:0% 2.5%;
+	margin-bottom:3%;
+}
+.page section{
+	height:100%;
+	border:solid var(--asha-red) 2px;
+	padding:2% 3%;
+}
+.page section h1{
+	font-family:"Grenze Gotisch",serif;
+	font-size:3em;
+	font-weight:300;
+	text-align:left;
+	color:var(--asha-red);
+}
+.page section p{
+	font-family:"Inconsolata",sans-serif;
+	font-size:1.5em;
+	font-weight:300;
+	font-stretch:semi-condensed;
+	text-align:justify;
+	color:var(--asha-red);
+	margin-bottom:1%;
+}
+.page section hr{
+	border-top:solid var(--asha-red) 2px;
+}
+.page section form{
+	margin-top:2%;
+}
+.page section form fieldset{
+	border:none;
+	margin-bottom:1%;
+	display:flex;
+	flex-direction:row;
+    flex-wrap: nowrap;
+    justify-content:center;
+    align-items: center;
+}
+.page section form fieldset legend{
+	font-family:"Inconsolata",sans-serif;
+	font-size:1.3em;
+	font-weight:300;
+	font-stretch:semi-condensed;
+	text-align:center;
+	color:var(--asha-red);
+	margin-bottom:1%;
+}
+.page section form fieldset legend strong{
+	font-family:"Grenze Gotisch",serif;
+	font-size:2em;
+	font-weight:300;
+}
+.page section form fieldset div{
+	display:grid;
+  	grid-template-columns:2em auto;
+  	gap:0.5em;
+  	align-items:center;
+  	margin:0 10vw;
+}
+.page section form fieldset div input[type="radio"]{
+ 	-webkit-appearance:none;
+  	appearance:none;
+  	display:grid;
+  	place-content:center;
+  	background-color:var(--background);
+  	margin:0;
+  	font:inherit;
+  	color:var(--asha-red);
+  	width:2em;
+  	height:2em;
+  	border:solid var(--asha-red) 2px;
+  	transition:color, border;
+	transition-duration:0.3s;
+	transition-timing-function:cubic-bezier(0.35, 0.6, 0.57, 0.86);
+}
+.page section form fieldset div input[type="radio"]:checked{
+	color:var(--asha-light-red);
+	border:solid var(--asha-light-red) 2px;
+}
+.page section form fieldset div input[type="radio"]::before{
+ 	content:"";
+ 	width:2em;
+  	height:2em;
+  	transform:scale(0);
+  	transition:transform 0.3s cubic-bezier(0.35, 0.6, 0.57, 0.86);
+  	box-shadow:inset 2em 2em var(--asha-light-red);
+}
+.page section form fieldset div input[type="radio"]:checked::before{
+	transform:scale(1);
+}
+.page section form fieldset div label{
+	font-family:"Inconsolata",sans-serif;
+	font-size:1.3em;
+	font-weight:300;
+	font-stretch:semi-condensed;
+	text-align:center;
+	color:var(--asha-red);
+	transition:font-weight, color;
+	transition-duration:0.3s;
+	transition-timing-function:ease-out;
+}
+.page section form fieldset div input[type="radio"]:checked + label{
+	font-weight:500;
+	color:var(--asha-light-red);
+}
+.page section form input[type="button"]{
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-family:"Grenze Gotisch",serif;
+	font-size:1.4em;
+	font-weight:600;
+	color:var(--asha-red);
+	background-color:var(--background);
+	border:solid var(--asha-red) 2px;
+	padding:0.5% 1%;
+	border-radius:2px;
+	transition:color, background-color, border;
+	transition-duration:0.3s;
+	transition-timing-function:ease-out;
+}
+.page section form input[type="button"]:hover{
+	color:var(--background);
+	background-color:var(--asha-light-red);
+	border:solid transparent 2px;
 }
