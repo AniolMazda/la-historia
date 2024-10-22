@@ -1,3 +1,10 @@
+:root{
+	--background:#FDF0D5;
+	--asha-red:#780000;
+	--asha-light-red:#C1121F;
+	--druj-blue:#003049;
+	--druj-light-blue:#669BBC;
+}
 *{
 	margin:0;
 	padding:0;
@@ -6,64 +13,98 @@
 a{
 	text-decoration:none;
 }
+body{
+	background-color:var(--background);
+}
 header{
 	width:100%;
-	height:100vh;
+	height:15vh;
 	position:relative;
-	overflow:hidden;
-}
-header video{
-	position:fixed;
-	right: 0;
-	top: 0;
-	z-index:-1;
-	min-width:100%;
-	min-height:100vh;
-	transform: translateX(calc((100% - 100vw) / 2));
 }
 header nav{
 	display: flex;
 	justify-content:center;
-	margin-top:3%;
+	padding-top:1%;
 }
 header nav ul{
 	display: inline-flex;
-    width: 80%;
+    width: 100%;
     justify-content: center;
-    gap: 5%;
+    align-items:flex-end;
+    gap:2%;
+}
+header nav ul .link{
+	padding-bottom:2%;
 }
 header nav ul li{
 	list-style:none;
-	margin-left:3%;
 }
 header nav ul li a{
-	font-family:"Space Grotesk",sans-serif;
-	font-size:1.4em;
+	font-family:"Grenze Gotisch",serif;
+	font-size:1.8em;
 	font-weight:300;
 	text-align: center;
-	color:white;
+	color:var(--druj-blue);
 }
-section{
-	height:100vh;
-	display:flex;
-	flex-direction:column;
-	justify-content: center;
+header nav ul li svg{
+	fill:var(--druj-blue);
+	max-height:110px;
+	width:auto;
+}
+main{
+	height:85vh;
+}
+.home{
+	background-color:var(--druj-blue);
+	background-image:url("../img/edificio.jpg");
+	background-position: center bottom;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-blend-mode: exclusion;
+}
+.home section{
+	height:100%;
+	display:grid;
+	grid-template-columns:1fr 1fr;
+	grid-template-rows:80% 20%;
+	grid-template-areas:"titulo parrafo"
+	"boton boton";
 	padding:0% 3%;
-	gap:20%;
 }
-section h1{
-	font-family:"Space Grotesk",sans-serif;
+.home section h1{
+	font-family:"Inconsolata",sans-serif;
 	font-size:1.5em;
 	font-weight:500;
 	text-align: left;
-	color:white;
+	color:var(--background);
+	grid-area:titulo;
+	justify-self:flex-start;
+	align-self:start;
+	margin-top:20%;
 }
-section p{
-	font-family:"Space Grotesk",sans-serif;
+.home section p{
+	font-family:"Inconsolata",sans-serif;
 	font-size:1em;
 	font-weight:300;
 	text-align: right;
-	color:white;
+	color:var(--background);
+	grid-area:parrafo;
 	width:400px;
-	align-self:flex-end;
+	justify-self:flex-end;
+	align-self:start;
+	margin-top:20%;
+}
+.home section .button{
+	font-family:"Grenze Gotisch",serif;
+	font-size:1.4em;
+	font-weight:600;
+	color:var(--druj-blue);
+	background-color:var(--background);
+	padding:0.5% 1%;;
+	border-radius:2px;
+	grid-area:boton;
+	width: fit-content;
+    height: fit-content;
+    justify-self:center;
+	align-self:center;
 }

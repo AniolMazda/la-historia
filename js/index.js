@@ -1,4 +1,4 @@
-let usuario = prompt("Por Favor Escribe Tu Nombre"),
+/*let usuario = prompt("Por Favor Escribe Tu Nombre"),
     pregunta = ["Los pensamientos suelen fluir fácilmente sin quedarse atrapados en mi mente.",
     "Rara vez me preocupo por las cosas; suelo vivir el momento.",
     "A veces las personas se molestan conmigo porque dicen que hablo mucho o demasiado rápido.",
@@ -39,4 +39,4 @@ function mostrarRespuestas() {
 }
 nombre();
 console.log("Hola, "+usuario+" Aqui estan tus respuestas de tu test");
-mostrarRespuestas();
+mostrarRespuestas();*/
