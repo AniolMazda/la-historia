@@ -14,10 +14,10 @@ let usuario = prompt("Por Favor Escribe Tu Nombre"),
     "Siempre he seguido las indicaciones médicas y no he tomado medicación sin receta.",
     "Sé que he tenido una vida caótica y desenfrenada.",
     "Los castigos nunca me impidieron hacer lo que quería."];
-function nombre(){
-    let nombreR = document.getElementById("nombre");
-    nombreR.innerHTML = usuario;
-}
+/*function nombre(){
+    let nombreU = document.getElementById("nombre");
+    nombreU.innerHTML = usuario;
+}*/
 function colocarPreguntasHTML(){
     let form = document.getElementById("test"),
         button = document.getElementById("button-form");
@@ -30,20 +30,33 @@ function colocarPreguntasHTML(){
         form.insertBefore(contenedor,button);
     }
 }
-colocarPreguntasHTML();
 function obtenerRespuestas(){
     let respuestas = [];
     for(let i = 1;i < preguntas.length+1; i++){
-        respuestas.push(document.querySelector(`input[name="resp${i}"]:checked`).value);
+        let pregunta = document.querySelector(`input[name="resp${i}"]:checked`);
+        if(pregunta === null){
+            alert(`No puedes enviar aun tus respuestas, te falto responder la pregunta #${i} ${preguntas[i-1]}`);
+        }else{
+            respuestas.push(pregunta.value);
+        }
     }
-    return console.log(respuestas);
-}
-/*function mostrarRespuestas() {
-    preguntas();
-    for (let i = 0;i <= 14;i++){
-        console.log(pregunta[i]+": "+respuesta[i]);
+    if(respuestas.length === preguntas.length){
+        return console.log(respuestas);
     }
 }
-nombre();
-console.log("Hola, "+usuario+" Aqui estan tus respuestas de tu test");
-mostrarRespuestas();*/
+function mostrarRespuestas(respuestas){
+    class Resultados{
+        constructor(pregunta,respuesta){
+            this.pregunta = pregunta;
+            this.respuesta = respuesta;
+        }
+        resumen(){
+            return `${this.pregunta}: ${this.respuesta}`;
+        }
+    }
+    preguntas.forEach((pregunta,i) => {
+        let resumen = [new Resultados(pregunta,respuestas[i])];
+    });
+}
+//nombre();
+colocarPreguntasHTML();
