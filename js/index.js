@@ -14,10 +14,6 @@ let usuario = prompt("Por Favor Escribe Tu Nombre"),
     "Siempre he seguido las indicaciones médicas y no he tomado medicación sin receta.",
     "Sé que he tenido una vida caótica y desenfrenada.",
     "Los castigos nunca me impidieron hacer lo que quería."];
-/*function nombre(){
-    let nombreU = document.getElementById("nombre");
-    nombreU.innerHTML = usuario;
-}*/
 function colocarPreguntasHTML(){
     let form = document.getElementById("test"),
         button = document.getElementById("button-form");
@@ -25,12 +21,12 @@ function colocarPreguntasHTML(){
         let contenedor = document.createElement("fieldset"),
             contador = preguntas.indexOf(pregunta);
         contenedor.innerHTML = `<legend><strong>${contador+1} </strong>${pregunta}</legend>
-                        <div><input type="radio" name="resp${contador+1}" value="true"><label for="true">Si</label></div>
-                        <div><input type="radio" name="resp${contador+1}" value="false"><label for="false">No</label></div>`;
+                        <div><input type="radio" name="resp${contador+1}" value="Si"><label for="Si">Si</label></div>
+                        <div><input type="radio" name="resp${contador+1}" value="No"><label for="No">No</label></div>`;
         form.insertBefore(contenedor,button);
     }
 }
-function obtenerRespuestas(){
+const obtenerRespuestas = function (callbackMostrar){
     let respuestas = [];
     for(let i = 1;i < preguntas.length+1; i++){
         let pregunta = document.querySelector(`input[name="resp${i}"]:checked`);
@@ -41,10 +37,12 @@ function obtenerRespuestas(){
         }
     }
     if(respuestas.length === preguntas.length){
-        return console.log(respuestas);
+        respuestas;
+        return callbackMostrar(respuestas);
     }
 }
-function mostrarRespuestas(respuestas){
+const mostrarRespuestas = function (array){
+    let resumen = [];
     class Resultados{
         constructor(pregunta,respuesta){
             this.pregunta = pregunta;
@@ -55,8 +53,8 @@ function mostrarRespuestas(respuestas){
         }
     }
     preguntas.forEach((pregunta,i) => {
-        let resumen = [new Resultados(pregunta,respuestas[i])];
+        resumen.push(new Resultados(pregunta,array[i]));
     });
+    console.log(resumen);
 }
-//nombre();
 colocarPreguntasHTML();
