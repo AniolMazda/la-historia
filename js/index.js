@@ -1,4 +1,4 @@
-let usuario = prompt("Por Favor Escribe Tu Nombre"),
+const usuario = "",
     preguntas = ["Los pensamientos suelen fluir fácilmente sin quedarse atrapados en mi mente.",
     "Rara vez me preocupo por las cosas; suelo vivir el momento.",
     "A veces las personas se molestan conmigo porque dicen que hablo mucho o demasiado rápido.",
@@ -17,21 +17,32 @@ let usuario = prompt("Por Favor Escribe Tu Nombre"),
 function colocarPreguntasHTML(){
     let form = document.getElementById("test"),
         button = document.getElementById("button-form");
-    for (const pregunta of preguntas){
-        let contenedor = document.createElement("fieldset"),
-            contador = preguntas.indexOf(pregunta);
-        contenedor.innerHTML = `<legend><strong>${contador+1} </strong>${pregunta}</legend>
-                        <div><input type="radio" name="resp${contador+1}" value="Si"><label for="Si">Si</label></div>
-                        <div><input type="radio" name="resp${contador+1}" value="No"><label for="No">No</label></div>`;
+    preguntas.forEach((pregunta,i) => {
+        let contenedor = document.createElement(`fieldset`);
+        contenedor.innerHTML = `<legend><strong>${++i} </strong>${pregunta}</legend>
+                        <div><input type="radio" name="resp${i}" value="Si"><label for="Si">Si</label></div>
+                        <div><input type="radio" name="resp${i}" value="No"><label for="No">No</label></div>`;
         form.insertBefore(contenedor,button);
-    }
+    });
+    let fieldsetContainer = document.querySelectorAll("fieldset");
+    fieldsetContainer.forEach((fieldset,i) => {
+        fieldset.classList.add(`pregunta-${++i}`);
+    });
 }
 const obtenerRespuestas = function (callbackMostrar){
     let respuestas = [];
     for(let i = 1;i < preguntas.length+1; i++){
         let pregunta = document.querySelector(`input[name="resp${i}"]:checked`);
         if(pregunta === null){
-            alert(`No puedes enviar aun tus respuestas, te falto responder la pregunta #${i} ${preguntas[i-1]}`);
+            let fieldsetClass = document.querySelector(`.pregunta-${i}`);
+                errorP = document.createElement("span");
+            errorP.classList.add("error-message");
+            errorP.innerHTML = "<p>Te falto responder esta pregunta</p>";
+            fieldsetClass.after(errorP);
+            fieldsetClass.scrollIntoView({
+                behavior: 'smooth'
+            });
+            break
         }else{
             respuestas.push(pregunta.value);
         }
