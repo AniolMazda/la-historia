@@ -38,7 +38,9 @@ const obtenerRespuestas = function (callbackMostrar){
                 errorP = document.createElement("span");
             errorP.classList.add("error-message");
             errorP.innerHTML = "<p>Te falto responder esta pregunta</p>";
-            fieldsetClass.after(errorP);
+            fieldsetClass.append(errorP);
+            let errorPs = document.getElementsByClassName("error-message");
+            errorPs.length >= 2 && errorP.remove();
             fieldsetClass.scrollIntoView({
                 behavior: 'smooth'
             });
@@ -47,10 +49,15 @@ const obtenerRespuestas = function (callbackMostrar){
             respuestas.push(pregunta.value);
         }
     }
-    if(respuestas.length === preguntas.length){
-        respuestas;
-        return callbackMostrar(respuestas);
-    }
+    let borrarErrorMessage = document.querySelectorAll('input[type="radio"]'),
+        errorMessage = document.querySelector(".error-message");
+        borrarErrorMessage.forEach((error) => {
+            error.addEventListener('click',() => {
+                errorMessage.classList.add("error-message-close");
+                setTimeout(() => {errorMessage.remove()},500);
+            });
+        });
+    return respuestas.length === preguntas.length && callbackMostrar(respuestas);
 }
 const mostrarRespuestas = function (array){
     let resumen = [];

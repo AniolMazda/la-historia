@@ -157,6 +157,7 @@ header nav ul li svg{
 .page section form fieldset{
 	border:none;
 	margin-bottom:1%;
+	position:relative;
 	display:flex;
 	flex-direction:row;
     flex-wrap: nowrap;
@@ -230,6 +231,22 @@ header nav ul li svg{
 	font-weight:500;
 	color:var(--asha-light-red);
 }
+.page section form fieldset .error-message{
+	position:absolute;
+	right:10%;
+	font-style:italic;
+	font-size:0.8em;
+	padding:1% 1%;
+	background-color:var(--asha-red);
+	color:var(--background);
+	animation:insertMessage 0.4s alternate ease-out forwards;
+}
+.page section form fieldset .error-message-close{
+	animation:removeMessage 0.4s alternate ease-out forwards;
+}
+.page section form fieldset .error-message p{
+	color:inherit;
+}
 .page section form input[type="button"]{
 	display: block;
     margin-left: auto;
@@ -250,4 +267,24 @@ header nav ul li svg{
 	color:var(--background);
 	background-color:var(--asha-light-red);
 	border:solid transparent 2px;
+}
+@keyframes insertMessage{
+	to{
+		transform:translateX(0%);
+		opacity:1;
+	}
+	from{
+		transform:translateX(-20%);
+		opacity:0;
+	}
+}
+@keyframes removeMessage{
+	to{
+		transform:translateX(20%);
+		opacity:0;
+	}
+	from{
+		transform:translateX(0%);
+		opacity:1;
+	}
 }
