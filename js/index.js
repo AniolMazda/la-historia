@@ -1,3 +1,4 @@
+//VARIABLES CONSTANTES
 const usuario = "",
     preguntas = ["Los pensamientos suelen fluir fácilmente sin quedarse atrapados en mi mente.",
     "Rara vez me preocupo por las cosas; suelo vivir el momento.",
@@ -13,23 +14,26 @@ const usuario = "",
     "A menudo echo a perder las cosas buenas que me ocurren.",
     "Siempre he seguido las indicaciones médicas y no he tomado medicación sin receta.",
     "Sé que he tenido una vida caótica y desenfrenada.",
-    "Los castigos nunca me impidieron hacer lo que quería."];
+    "Los castigos nunca me impidieron hacer lo que quería."],
+    buttonForm = document.getElementById("button-form");
+let form = document.getElementById("test"),
+    contenedorTest = document.getElementById("contenedor-test"),
+    comprobarLocal = localStorage.getItem("resumenTest");
+//FUNCIONES
 function colocarPreguntasHTML(){
-    let form = document.getElementById("test"),
-        button = document.getElementById("button-form");
     preguntas.forEach((pregunta,i) => {
         let contenedor = document.createElement(`fieldset`);
         contenedor.innerHTML = `<legend><strong>${++i} </strong>${pregunta}</legend>
-                        <div><input type="radio" name="resp${i}" value="Si"><label for="Si">Si</label></div>
-                        <div><input type="radio" name="resp${i}" value="No"><label for="No">No</label></div>`;
-        form.insertBefore(contenedor,button);
+                        <div><input type="radio" name="resp${i}" value="Si"><label for="test">Si</label></div>
+                        <div><input type="radio" name="resp${i}" value="No"><label for="test">No</label></div>`;
+        form.insertBefore(contenedor,buttonForm);
     });
     let fieldsetContainer = document.querySelectorAll("fieldset");
     fieldsetContainer.forEach((fieldset,i) => {
         fieldset.classList.add(`pregunta-${++i}`);
     });
 }
-const obtenerRespuestas = function (callbackMostrar){
+const obtenerRespuestas = function (callbackGuardar){
     let respuestas = [];
     for(let i = 1;i < preguntas.length+1; i++){
         let pregunta = document.querySelector(`input[name="resp${i}"]:checked`);
@@ -57,9 +61,9 @@ const obtenerRespuestas = function (callbackMostrar){
                 setTimeout(() => {errorMessage.remove()},500);
             });
         });
-    return respuestas.length === preguntas.length && callbackMostrar(respuestas);
+    return respuestas.length === preguntas.length && callbackGuardar(respuestas);
 }
-const mostrarRespuestas = function (array){
+const guardarRespuestas = function (array){
     let resumen = [];
     class Resultados{
         constructor(pregunta,respuesta){
@@ -73,6 +77,28 @@ const mostrarRespuestas = function (array){
     preguntas.forEach((pregunta,i) => {
         resumen.push(new Resultados(pregunta,array[i]));
     });
-    console.log(resumen);
+    return localStorage.setItem("resumenTest", JSON.stringify(resumen));
+}
+function mostrarRespuestas (){
+    if(comprobarLocal){
+        let resumenLocal = JSON.parse(comprobarLocal);
+            form.remove();
+        let contenedorPresentacionResumen = document.createElement("div");
+            contenedorPresentacionResumen.classList.add("contenedor-presentacion-resumen");
+            contenedorPresentacionResumen.innerHTML = `<h2>Informe De Resultados</h2>
+                <p>Nombre: ${usuario}</p>`;
+            contenedorTest.append(contenedorPresentacionResumen);
+        let contenedorResumen = document.createElement("div");
+            contenedorResumen.classList.add("contenedor-resumen");
+            contenedorResumen.innerHTML = "<h3>Resultados</h3>";
+            resumenLocal.forEach((resumenIndividual) => {
+                contenedorResumen.innerHTML += `<div class="resumen"><p class="pregunta">${resumenIndividual.pregunta}</p><p class="respuesta">${resumenIndividual.respuesta}</p></div>`;
+                contenedorTest.append(contenedorResumen);
+            });
+    }
 }
 colocarPreguntasHTML();
+comprobarLocal && mostrarRespuestas();
+buttonForm.addEventListener("click",() => {
+    obtenerRespuestas(guardarRespuestas);
+});

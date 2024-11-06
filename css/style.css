@@ -268,6 +268,47 @@ header nav ul li svg{
 	background-color:var(--asha-light-red);
 	border:solid transparent 2px;
 }
+.page section .contenedor-presentacion-resumen, .page section .contenedor-resumen{
+	width:80vw;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:2%;
+}
+.page section .contenedor-resumen .resumen{
+	display:flex;
+	flex-direction:row;
+	flex-wrap:nowrap;
+	justify-content:flex-start;
+	align-items:center;
+	gap:2%;
+}
+.page section .contenedor-presentacion-resumen h2{
+	font-family:"Grenze Gotisch",serif;
+	font-size:2.5em;
+	font-weight:300;
+	text-align:left;
+	color:var(--druj-blue);
+}
+.page section .contenedor-resumen h3{
+	font-family:"Grenze Gotisch",serif;
+	font-size:2.2em;
+	font-weight:300;
+	text-align:center;
+	color:var(--druj-blue);
+	margin-bottom:2%;
+}
+.page section .contenedor-presentacion-resumen p, .page section .contenedor-resumen p{
+	color:var(--druj-blue);
+}
+.page section .contenedor-resumen .respuesta{
+	font-weight:500;
+	color:var(--background);
+	background-color:var(--druj-blue);
+	width:50px;
+	height:50px;
+	display:grid;
+	place-items:center;
+}
 @keyframes insertMessage{
 	to{
 		transform:translateX(0%);
