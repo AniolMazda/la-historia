@@ -5,6 +5,9 @@
 	--druj-blue:#003049;
 	--druj-light-blue:#669BBC;
 }
+::placeholder{
+	color:#7a4545;
+}
 *{
 	margin:0;
 	padding:0;
@@ -161,7 +164,7 @@ header nav ul li svg .edificio{
 .page section form{
 	margin-top:2%;
 }
-.page section form fieldset{
+.page section form fieldset, .page section form div{
 	border:none;
 	margin-bottom:1%;
 	position:relative;
@@ -170,6 +173,36 @@ header nav ul li svg .edificio{
     flex-wrap: nowrap;
     justify-content:center;
     align-items: center;
+}
+.page section form div{
+    justify-content: flex-start;
+}
+.page section form .name-container label{
+	font-family:"Inconsolata",sans-serif;
+	font-size:1.5em;
+	font-weight:300;
+	font-stretch:semi-condensed;
+	margin-right:0.3em;
+	color:var(--asha-red);
+}
+.page section form .name-container input[type="text"]{
+	background-color:transparent;
+	border:transparent;
+	border-bottom:solid 2px var(--asha-light-red);
+	color:var(--asha-light-red);
+	font-family:"Inconsolata",sans-serif;
+	font-size:1.5em;
+	font-weight:300;
+	font-stretch:semi-condensed;
+	transition:color, border;
+	transition-duration:0.3s;
+	transition-timing-function:ease-out;
+}
+.page section form .name-container input[type="text"]:focus,
+.page section form .name-container input[type="text"]:focus-visible{
+	color:var(--asha-red);
+	border-bottom:solid 2px var(--asha-red);
+	outline:none;
 }
 .page section form fieldset legend{
 	font-family:"Inconsolata",sans-serif;
@@ -277,6 +310,7 @@ header nav ul li svg .edificio{
 	background-color:var(--asha-light-red);
 	border:solid transparent 2px;
 }
+/*	RESUMEN 	*/
 .page section .contenedor-presentacion-resumen, .page section .contenedor-resumen{
 	width:80vw;
 	margin-left:auto;
@@ -308,6 +342,9 @@ header nav ul li svg .edificio{
 }
 .page section .contenedor-presentacion-resumen p, .page section .contenedor-resumen p{
 	color:var(--druj-blue);
+}
+.page section .contenedor-presentacion-resumen p strong{
+	font-weight:500;
 }
 .page section .contenedor-resumen .respuesta{
 	font-weight:500;
@@ -352,29 +389,7 @@ div:where(.success-alert) .swal2-html-container{
 	font-family:"Grenze Gotisch",serif;
 	font-size:2.5em;
 	font-weight:300;
-	color:var(--asha-red);
-}
-div:where(.error-alert) .swal2-html-container{
-	font-family:"Inconsolata",sans-serif;
-	font-stretch:semi-condensed;
-	color:var(--asha-red) !important;
-}
-.error-alert .swal2-actions .swal2-confirm{
-	font-family:"Grenze Gotisch",serif;
-	font-size:1.4em;
-	font-weight:600;
-	color:var(--asha-red);
-	background-color:var(--background);
-	border:solid var(--asha-red) 2px;
-	border-radius:2px;
-	transition:color, background-color, border;
-	transition-duration:0.3s;
-	transition-timing-function:ease-out;
-}
-.error-alert .swal2-actions .swal2-confirm:hover{
 	color:var(--background);
-	background-color:var(--asha-red);
-	border:solid transparent 2px;
 }
 @keyframes insertMessage{
 	to{

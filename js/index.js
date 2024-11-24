@@ -1,6 +1,5 @@
 //VARIABLES CONSTANTES
-const usuario = "",
-    preguntas = [{
+const preguntas = [{
         id:1,
         pregunta:"Los pensamientos suelen fluir fácilmente sin quedarse atrapados en mi mente.",
         valor_true:0,
@@ -153,6 +152,7 @@ const usuario = "",
     buttonForm = document.getElementById("button-form");
 let form = document.getElementById("test"),
     contenedorTest = document.getElementById("contenedor-test"),
+    usuario = "",
     comprobarLocal = localStorage.getItem("resumenTest");
 //FUNCIONES
 function colocarPreguntasHTML(){
@@ -167,6 +167,11 @@ function colocarPreguntasHTML(){
     fieldsetContainer.forEach((fieldset,i) => {
         fieldset.classList.add(`pregunta-${++i}`);
     });
+}
+const obtenerUsuario = function (){
+    let valorUser = document.getElementById("name-form");
+    usuario = valorUser.value;
+    localStorage.setItem("Nombre",usuario);
 }
 const obtenerRespuestas = function (callbackGuardar){
     let respuestas = [],
@@ -219,14 +224,15 @@ const obtenerRespuestas = function (callbackGuardar){
             customClass:{
                 container:"error-alert"
             },
-            title: "Test Error",
-            text: "Hubo un error en el test, vuelve a realizarlo por favor",
+            title: "Hubo un error en el test, vuelve a realizarlo por favor",
             icon: "error",
-            iconColor:"#780000",
-            background:"#FDF0D5",
-            confirmButtonText:"† Volver †",
-            allowOutsideClick:false,
-            allowEscapeKey:false
+            iconColor:"#FDF0D5",
+            background:"#C1121F",
+            position:"top-start",
+            toast:true,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
         });
     })
 }
@@ -248,12 +254,13 @@ const guardarRespuestas = function (array){
 }
 function mostrarRespuestas (){
     if(comprobarLocal){
-        let resumenLocal = JSON.parse(comprobarLocal);
+        let resumenLocal = JSON.parse(comprobarLocal),
+            usuarioLocal = localStorage.getItem("Nombre");
             form.remove();
         let contenedorPresentacionResumen = document.createElement("div");
             contenedorPresentacionResumen.classList.add("contenedor-presentacion-resumen");
             contenedorPresentacionResumen.innerHTML = `<h2>Informe De Resultados</h2>
-                <p>Nombre: ${usuario}</p>`;
+                <p><strong>Nombre:</strong> ${usuarioLocal}</p>`;
             contenedorTest.append(contenedorPresentacionResumen);
         let contenedorResumen = document.createElement("div");
             contenedorResumen.classList.add("contenedor-resumen");
@@ -294,5 +301,6 @@ colocarPreguntasHTML();
 comprobarLocal && mostrarRespuestas();
 form.addEventListener("submit",(event) => {
     event.preventDefault();
+    obtenerUsuario();
     obtenerRespuestas(guardarRespuestas);
 });
