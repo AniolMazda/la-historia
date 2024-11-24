@@ -255,7 +255,7 @@ header nav ul li svg .edificio{
 .page section form fieldset .error-message p{
 	color:inherit;
 }
-.page section form input[type="button"]{
+.page section form input[type="submit"]{
 	display: block;
     margin-left: auto;
     margin-right: auto;
@@ -272,7 +272,7 @@ header nav ul li svg .edificio{
 	transition-timing-function:ease-out;
 	cursor:pointer;
 }
-.page section form input[type="button"]:hover{
+.page section form input[type="submit"]:hover{
 	color:var(--background);
 	background-color:var(--asha-light-red);
 	border:solid transparent 2px;

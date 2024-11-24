@@ -159,8 +159,8 @@ function colocarPreguntasHTML(){
     preguntas.forEach((preguntacontent,i) => {
         let contenedor = document.createElement(`fieldset`);
         contenedor.innerHTML = `<legend><strong>${++i} </strong>${preguntacontent.pregunta}</legend>
-                        <div><input type="radio" name="resp${i}" value="Si"><label for="test">Si</label></div>
-                        <div><input type="radio" name="resp${i}" value="No"><label for="test">No</label></div>`;
+                        <div><input id="pregunta-test${i}-si" type="radio" name="resp${i}" value="Si"><label for="pregunta-test${i}">Si</label></div>
+                        <div><input id="pregunta-test${i}-no" type="radio" name="resp${i}" value="No"><label for="pregunta-test${i}">No</label></div>`;
         form.insertBefore(contenedor,buttonForm);
     });
     let fieldsetContainer = document.querySelectorAll("fieldset");
@@ -169,44 +169,51 @@ function colocarPreguntasHTML(){
     });
 }
 const obtenerRespuestas = function (callbackGuardar){
-    let respuestas = [];
+    let respuestas = [],
+        esValido = true;
     for(let i = 1;i < preguntas.length+1; i++){
         let pregunta = document.querySelector(`input[name="resp${i}"]:checked`);
-        if(pregunta === null){
-            let fieldsetClass = document.querySelector(`.pregunta-${i}`);
-                errorP = document.createElement("span");
-            errorP.classList.add("error-message");
-            errorP.innerHTML = "<p>Te falto responder esta pregunta</p>";
-            fieldsetClass.append(errorP);
-            let errorPs = document.getElementsByClassName("error-message");
-            errorPs.length >= 2 && errorP.remove();
-            fieldsetClass.scrollIntoView({
-                behavior: 'smooth'
-            });
+        if(pregunta === null || pregunta === undefined){
+            esValido = false;
+            mensajeError(i);
             break
         }else{
             respuestas.push(pregunta.value);
+            esValido = true;
         }
     }
-    let borrarErrorMessage = document.querySelectorAll('input[type="radio"]'),
-        errorMessage = document.querySelector(".error-message");
-        borrarErrorMessage.forEach((error) => {
-            error.addEventListener('click',() => {
-                errorMessage.classList.add("error-message-close");
-                setTimeout(() => {errorMessage.remove()},500);
-            });
+    borrarMensajeError();
+    const validarRespuestas = () => {
+        return new Promise((resolve) => {
+            esValido && resolve();
         });
-    return respuestas.length === preguntas.length && callbackGuardar(respuestas);
+    }
+    validarRespuestas().then(()=>{
+        respuestas.length === preguntas.length && callbackGuardar(respuestas);
+    }).then(()=>{
+        Swal.fire({
+            title: "Test Concluido",
+            text: "Has terminado el test, ahora puedes ver tus resultados",
+            icon: "success",
+            iconColor:"#003049",
+            background:"#FDF0D5",
+            confirmButtonText:"† Ver Resultados †"
+        }).then((result)=>{
+            if(result.isConfirmed){
+                form.submit();
+            }
+        }) 
+    });
 }
 const guardarRespuestas = function (array){
     let resumen = [];
     class Resultados{
-        constructor(pregunta,respuesta){
-            this.pregunta = pregunta;
+        constructor(estructuraPregunta,respuesta){
+            this.estructuraPregunta = estructuraPregunta;
             this.respuesta = respuesta;
         }
         resumen(){
-            return `${this.pregunta}: ${this.respuesta}`;
+            return `${this.estructuraPregunta}: ${this.respuesta}`;
         }
     }
     preguntas.forEach((pregunta,i) => {
@@ -227,13 +234,40 @@ function mostrarRespuestas (){
             contenedorResumen.classList.add("contenedor-resumen");
             contenedorResumen.innerHTML = "<h3>Resultados</h3>";
             resumenLocal.forEach((resumenIndividual) => {
-                contenedorResumen.innerHTML += `<div class="resumen"><p class="pregunta">${resumenIndividual.pregunta}</p><p class="respuesta">${resumenIndividual.respuesta}</p></div>`;
+                contenedorResumen.innerHTML += `<div class="resumen"><p class="pregunta">${resumenIndividual.estructuraPregunta.pregunta}</p><p class="respuesta">${resumenIndividual.respuesta}</p></div>`;
                 contenedorTest.append(contenedorResumen);
             });
     }
 }
+
+// CONTROL DE ERRORES
+
+const mensajeError = function(i){
+    let fieldsetClass = document.querySelector(`.pregunta-${i}`),
+        errorP = document.createElement("span");
+        errorP.classList.add("error-message");
+        errorP.innerHTML = "<p>Te falto responder esta pregunta</p>";
+        fieldsetClass.append(errorP);
+    let errorPs = document.getElementsByClassName("error-message");
+        errorPs.length >= 2 && errorP.remove();
+        fieldsetClass.scrollIntoView({
+            behavior: 'smooth'
+        });
+}
+const borrarMensajeError = function(){
+    let borrarErrorMessage = document.querySelectorAll('input[type="radio"]'),
+        errorMessage = document.querySelector(".error-message");
+        borrarErrorMessage.forEach((error) => {
+            error.addEventListener('click',() => {
+                errorMessage.classList.add("error-message-close");
+                setTimeout(() => {errorMessage.remove()},500);
+            });
+        });
+}
+
 colocarPreguntasHTML();
 comprobarLocal && mostrarRespuestas();
-buttonForm.addEventListener("click",() => {
+form.addEventListener("submit",(event) => {
+    event.preventDefault();
     obtenerRespuestas(guardarRespuestas);
 });
