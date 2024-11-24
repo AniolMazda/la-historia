@@ -318,6 +318,64 @@ header nav ul li svg .edificio{
 	display:grid;
 	place-items:center;
 }
+/*	ALERT	*/
+.success-alert .swal2-title{
+	font-family:"Grenze Gotisch",serif;
+	font-size:2.5em;
+	font-weight:300;
+	color:var(--druj-blue);
+}
+div:where(.success-alert) .swal2-html-container{
+	font-family:"Inconsolata",sans-serif;
+	font-stretch:semi-condensed;
+	color:var(--druj-blue) !important;
+}
+.success-alert .swal2-actions .swal2-confirm{
+	font-family:"Grenze Gotisch",serif;
+	font-size:1.4em;
+	font-weight:600;
+	color:var(--druj-blue);
+	background-color:var(--background);
+	border:solid var(--druj-blue) 2px;
+	border-radius:2px;
+	transition:color, background-color, border;
+	transition-duration:0.3s;
+	transition-timing-function:ease-out;
+}
+.success-alert .swal2-actions .swal2-confirm:hover{
+	color:var(--background);
+	background-color:var(--druj-blue);
+	border:solid transparent 2px;
+}
+/*	ERROR ALERT 	*/
+.error-alert .swal2-title{
+	font-family:"Grenze Gotisch",serif;
+	font-size:2.5em;
+	font-weight:300;
+	color:var(--asha-red);
+}
+div:where(.error-alert) .swal2-html-container{
+	font-family:"Inconsolata",sans-serif;
+	font-stretch:semi-condensed;
+	color:var(--asha-red) !important;
+}
+.error-alert .swal2-actions .swal2-confirm{
+	font-family:"Grenze Gotisch",serif;
+	font-size:1.4em;
+	font-weight:600;
+	color:var(--asha-red);
+	background-color:var(--background);
+	border:solid var(--asha-red) 2px;
+	border-radius:2px;
+	transition:color, background-color, border;
+	transition-duration:0.3s;
+	transition-timing-function:ease-out;
+}
+.error-alert .swal2-actions .swal2-confirm:hover{
+	color:var(--background);
+	background-color:var(--asha-red);
+	border:solid transparent 2px;
+}
 @keyframes insertMessage{
 	to{
 		transform:translateX(0%);

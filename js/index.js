@@ -184,26 +184,51 @@ const obtenerRespuestas = function (callbackGuardar){
     }
     borrarMensajeError();
     const validarRespuestas = () => {
-        return new Promise((resolve) => {
-            esValido && resolve();
+        return new Promise((resolve,reject) => {
+            let validarTruitly = respuestas.every((respuesta) => !!respuesta),
+                validarRespuestaBinaria = respuestas.every((respuesta) => respuesta === "Si" || respuesta === "No");
+            if(esValido && validarTruitly && validarRespuestaBinaria && respuestas.length === preguntas.length){
+                resolve();
+            }else{
+                reject();
+            }
         });
     }
     validarRespuestas().then(()=>{
-        respuestas.length === preguntas.length && callbackGuardar(respuestas);
-    }).then(()=>{
+        callbackGuardar(respuestas);
         Swal.fire({
+            customClass:{
+                container:"success-alert"
+            },
             title: "Test Concluido",
             text: "Has terminado el test, ahora puedes ver tus resultados",
             icon: "success",
             iconColor:"#003049",
             background:"#FDF0D5",
-            confirmButtonText:"† Ver Resultados †"
+            confirmButtonText:"† Ver Resultados †",
+            allowOutsideClick:false,
+            allowEscapeKey:false
         }).then((result)=>{
             if(result.isConfirmed){
                 form.submit();
             }
         }) 
-    });
+    }).catch(()=>{
+        respuestas = [];
+            Swal.fire({
+            customClass:{
+                container:"error-alert"
+            },
+            title: "Test Error",
+            text: "Hubo un error en el test, vuelve a realizarlo por favor",
+            icon: "error",
+            iconColor:"#780000",
+            background:"#FDF0D5",
+            confirmButtonText:"† Volver †",
+            allowOutsideClick:false,
+            allowEscapeKey:false
+        });
+    })
 }
 const guardarRespuestas = function (array){
     let resumen = [];
