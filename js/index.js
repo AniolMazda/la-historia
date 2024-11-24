@@ -1,4 +1,4 @@
-//VARIABLES CONSTANTES
+//CONSTANTES
 const preguntas = [{
         id:1,
         pregunta:"Los pensamientos suelen fluir fácilmente sin quedarse atrapados en mi mente.",
@@ -150,9 +150,11 @@ const preguntas = [{
         }
     }],
     buttonForm = document.getElementById("button-form");
+// VARIABLES LET
 let form = document.getElementById("test"),
     contenedorTest = document.getElementById("contenedor-test"),
     usuario = "",
+    perfil = "",
     comprobarLocal = localStorage.getItem("resumenTest");
 //FUNCIONES
 function colocarPreguntasHTML(){
@@ -252,15 +254,56 @@ const guardarRespuestas = function (array){
     });
     return localStorage.setItem("resumenTest", JSON.stringify(resumen));
 }
+const categorizarRespuestas = function(local){
+    function definirPorcentajes(a,b){
+        let valorPorcentual = a * b / 100;
+        return Math.round(valorPorcentual);
+    }
+    function definirPerfil (a,b,c){
+        if(a > b && c){
+            perfil = "Ansiedad y Depresión";
+        }else if(b > a && c){
+            perfil = "Transtorno de Bipolaridad";
+        }else if(c > b && c){
+            perfil = "Tendencias Adictivas";
+        }
+    }
+    let valorAnsiedad = [],
+        valorBipolar = [],
+        valorVicios = [],
+        totalAnsiedad = 12,
+        totalBipolar = 10,
+        totalVicios = 9;
+    local.forEach((resultado)=>{
+        if(resultado.respuesta === "Si"){
+            resultado.estructuraPregunta.valor_true.grupo === "ansiedad" && valorAnsiedad.push(resultado.estructuraPregunta.valor_true.valor);
+            resultado.estructuraPregunta.valor_true.grupo === "bipolar" && valorBipolar.push(resultado.estructuraPregunta.valor_true.valor);
+            resultado.estructuraPregunta.valor_true.grupo === "vicios" && valorVicios.push(resultado.estructuraPregunta.valor_true.valor);
+        }else if(resultado.respuesta === "No"){
+            resultado.estructuraPregunta.valor_false.grupo === "ansiedad" && valorAnsiedad.push(resultado.estructuraPregunta.valor_false.valor);
+            resultado.estructuraPregunta.valor_false.grupo === "bipolar" && valorBipolar.push(resultado.estructuraPregunta.valor_false.valor);
+            resultado.estructuraPregunta.valor_false.grupo === "vicios" && valorVicios.push(resultado.estructuraPregunta.valor_false.valor);
+        }
+    });
+    let valorTotalAnsiedad = valorAnsiedad.reduce((a,b)=> a + b,0)*10;
+    let valorTotalBipolar = valorBipolar.reduce((a,b)=> a + b,0)*10;
+    let valorTotalVicios = valorVicios.reduce((a,b)=> a + b,0)*10;
+    let valorFinalAnsiedad = definirPorcentajes(totalAnsiedad,valorTotalAnsiedad),
+        valorFinalBipolar = definirPorcentajes(totalBipolar,valorTotalBipolar),
+        valorFinalVicios = definirPorcentajes(totalVicios,valorTotalVicios);
+    return definirPerfil(valorFinalAnsiedad,valorFinalBipolar,valorFinalVicios);
+}
 function mostrarRespuestas (){
     if(comprobarLocal){
         let resumenLocal = JSON.parse(comprobarLocal),
             usuarioLocal = localStorage.getItem("Nombre");
+            categorizarRespuestas(resumenLocal);
             form.remove();
         let contenedorPresentacionResumen = document.createElement("div");
             contenedorPresentacionResumen.classList.add("contenedor-presentacion-resumen");
             contenedorPresentacionResumen.innerHTML = `<h2>Informe De Resultados</h2>
-                <p><strong>Nombre:</strong> ${usuarioLocal}</p>`;
+                <p><strong>Nombre:</strong> ${usuarioLocal}</p>
+                <p><strong>Perfil:</strong> ${perfil}</p>`;
             contenedorTest.append(contenedorPresentacionResumen);
         let contenedorResumen = document.createElement("div");
             contenedorResumen.classList.add("contenedor-resumen");
