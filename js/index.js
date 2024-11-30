@@ -261,9 +261,9 @@ const categorizarRespuestas = function(local){
     }
     function definirPerfil (a,b,c){
         if(a > b && c){
-            perfil = "Ansiedad y Depresión";
+            perfil = "Ansiedad Generalizada";
         }else if(b > a && c){
-            perfil = "Transtorno de Bipolaridad";
+            perfil = "Espectro Bipolar";
         }else if(c > b && c){
             perfil = "Tendencias Adictivas";
         }
